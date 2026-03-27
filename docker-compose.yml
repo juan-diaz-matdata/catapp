@@ -25,7 +25,7 @@ services:
 
   frontend:
     build:
-      context: ./cat-breeds-app
+      context: ./cat-breeds-appv2
       dockerfile: Dockerfile
     ports:
       - '4200:80'
