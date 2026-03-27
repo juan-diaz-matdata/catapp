@@ -1,0 +1,8 @@
+<nav *ngIf="isAuthenticated$ | async" class="navbar">
+    <a routerLink="/breeds" routerLinkActive="active">Razas</a>
+    <a routerLink="/search" routerLinkActive="active">Buscar</a>
+    <a routerLink="/profile" routerLinkActive="active">Perfil</a>
+    <button (click)="logout()">Salir</button>
+</nav>
+
+<router-outlet />
