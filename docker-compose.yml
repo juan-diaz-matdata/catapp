@@ -1,0 +1,36 @@
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: vectordb
+    volumes:
+      - ./data:/data/db
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://user:password@mongodb:27017/vectordb?authSource=admin
+      CATAPI_BASE_URL: https://api.thecatapi.com/v1
+      CATAPI_API_KEY: live_jnP6JpOvCorzrTW9KDf757BILUINciLEX44D8to07llDGltz8DNMbCDx7fMOZzsS
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./cat-breeds-app
+      dockerfile: Dockerfile
+    ports:
+      - '4200:80'
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: catapp
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: vectordb
+      username: user
+      password: password
+      authentication-database: admin
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}   # 24 hours
+
+catapi:
+  base-url: ${CATAPI_BASE_URL:https://api.thecatapi.com/v1}
+  api-key: ${CATAPI_KEY:live_jnP6JpOvCorzrTW9KDf757BILUINciLEX44D8to07llDGltz8DNMbCDx7fMOZzsS}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      catApi:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        register-health-indicator: true
+
+logging:
+  level:
+    com.test.catapp: DEBUG
+    org.springframework.security: WARN
